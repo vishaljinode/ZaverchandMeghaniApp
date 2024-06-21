@@ -1,8 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 
-const StoryScreen = ({ route }) => {
-  const { itemId } = route.params;
+const StoryScreen = ({ route, navigation }) => {
+  const { storyId } = route.params;
+
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    fetchStory();  
+  }, []); 
+
+  useLayoutEffect(() => {
+    if (books.title) {
+      navigation.setOptions({
+        title: books.title,
+      });
+    }
+  }, [navigation, books.title]);
+
+
+
+  const fetchStory = async () => {
+    try {
+      const response = await fetch(
+        'https://zaverchand-meghani-api.onrender.com/book/getStoryByStroyId',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'security': 'JaihindJaiBharat',
+          },
+          body: JSON.stringify({ storyId: storyId }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch books');
+      }
+
+      const json = await response.json(); 
+       setBooks(json.book);       
+
+    } catch (error) {
+      console.error('Failed to fetch books:', error);
+      // Handle error state or show an error message
+    }
+  };
+
+
+
 
 
   return (
@@ -10,109 +56,11 @@ const StoryScreen = ({ route }) => {
     {/* <View style={styles.header}>
         <Text style={styles.headerText}>List of Books</Text>
       </View> */}
-            <Text>Book Index Screen for itemId: {itemId}</Text>
+            {/* <Text>Book Index Screen for itemId: {storyId}</Text> */}
 
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-
         <Text style={styles.story}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-          
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-          
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-          
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-          
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-          
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-          
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
-          
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id quam
-          eros. In non urna auctor, lacinia nisl at, finibus tortor. Nulla facilisi.
-          Aliquam at varius felis. Maecenas id nulla eu ligula sodales commodo.
-          Fusce ut sapien vestibulum, gravida est et, vestibulum odio.
+         {books.description}         
         </Text>
       </ScrollView>
     </View>

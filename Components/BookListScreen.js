@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  Linking,
   Image,
 } from 'react-native';
 
@@ -16,43 +17,47 @@ import Card from './Card';
 import { API_BASE_URL } from '../Api_urls';
 
 const BookListScreen = () => {
+  console.log("hello");
   const [searchText, setSearchText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [books, setBooks] = useState([]);
-
-
-
   const sliderImages = [require('../assets/slider.jpg'),require('../assets/slider.jpg')];
   const navigation = useNavigation(); 
 
 
-  // const renderBook = ({ item }) => (
-  //   <Card title={item.title} author={item.author} image={item.image} />
-  // );
-
-  const renderBook = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('BookIndex', { bookName: item.bookName })}>
-      <Card title={item.title} author={item.author} image={item.bookImage.mediaUrl} />
+  const renderBook = ({ item }) => (    
+    <TouchableOpacity onPress={() => navigation.navigate('BookIndex', { bookId: item._id })}>
+      <Card title={item.bookName} author={item.author} image={item.bookImage.mediaUrl} />
     </TouchableOpacity>
   );
 
   useEffect(() => {
-    fetchBooks();
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % sliderImages.length); // Cycle through images
-    }, 5000); // Change image every 3 seconds (adjust as needed)
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % sliderImages.length);
+    }, 5000);
 
-    return () => clearInterval(interval); // Cleanup function to clear interval
-  }, []); // Empty dependency array ensures effect runs only once on mount
+    return () => clearInterval(interval);
+  }, [sliderImages.length]);
+
+  // Effect for fetching books
+  useEffect(() => {
+    fetchBooks();
+  }, []); 
+
+  
   const handleSearch = (text) => {
     setSearchText(text);
   };
 
-  const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(searchText.toLowerCase())
+
+
+  const filteredBooks = books
+  .filter((book) =>
+    book.bookName.toLowerCase().includes(searchText.toLowerCase())
   );
-   
-  const fetchBooks = async () => {
+
+
+  const fetchBooks = async () => {  
     try {
       const response = await fetch(
         'https://zaverchand-meghani-api.onrender.com/book/getBooks',
@@ -69,16 +74,23 @@ const BookListScreen = () => {
       }
   
       const json = await response.json();
-      console.log("Received books:", json.books);
-      // Update the state with fetched books
       setBooks(json.books);
+    
   
     } catch (error) {
       console.error('Failed to fetch books:', error);
     }
   };
   
+  const openPlayStore = () => {
+    const url = 'market://details?id=com.yourapp.package';
+    Linking.openURL(url).catch((err) => console.error("Couldn't load page", err));
+  };
 
+  const openInstagramProfile = () => {
+    const url = 'https://www.instagram.com/zaverchand.meghani/';
+    Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+  };
 
 
   return (
@@ -95,10 +107,10 @@ const BookListScreen = () => {
 
       {/* Buttons */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={openPlayStore}>
           <Text style={styles.buttonText}>Rating</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={openInstagramProfile}>
           <Text style={styles.buttonText}>Instagram</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
