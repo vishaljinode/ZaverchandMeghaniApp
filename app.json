@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "ZaverchandMeghaniApp",
+    "name": "ZaverchandMeghani",
     "slug": "ZaverchandMeghaniApp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,13 +15,21 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.javerchand_meghani.zaverchand_meghani"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "58624f38-d2f3-4a42-a84a-321ae2142644"
+      }
+    },
+    "owner": "vishaljinode"
   }
 }

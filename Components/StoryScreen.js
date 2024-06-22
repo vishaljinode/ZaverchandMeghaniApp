@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { API_BASE_URL } from '../Api_urls';
 
 const StoryScreen = ({ route, navigation }) => {
   const { storyId } = route.params;
@@ -23,7 +24,7 @@ const StoryScreen = ({ route, navigation }) => {
   const fetchStory = async () => {
     try {
       const response = await fetch(
-        'https://zaverchand-meghani-api.onrender.com/book/getStoryByStroyId',
+        API_BASE_URL+'/book/getStoryByStroyId',
         {
           method: 'POST',
           headers: {

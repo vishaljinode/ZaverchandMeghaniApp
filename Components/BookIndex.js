@@ -1,22 +1,27 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 
-import { View, ScrollView, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, StyleSheet ,  ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { API_BASE_URL } from '../Api_urls';
+
 
 const BookIndex = ({ route }) => {
   const { bookId } = route.params;
+  const [loading, setLoading] = useState(false);
   // console.log("bookId",bookId);
   const [data, setData] = useState([]);
   const navigation = useNavigation();
+  
 
   useEffect(() => {
     fetchIndex();
   }, []);
 
   const fetchIndex = async () => {
+    setLoading(true); 
     try {
       const response = await fetch(
-        'https://zaverchand-meghani-api.onrender.com/book/gettitlesByBookId',
+        API_BASE_URL+'/book/gettitlesByBookId',
         {
           method: 'POST',
           headers: {
@@ -38,6 +43,8 @@ const BookIndex = ({ route }) => {
     } catch (error) {
       console.error('Failed to fetch books:', error);
       // Handle error state or show an error message
+    }finally {
+      setLoading(false); 
     }
   };
 
