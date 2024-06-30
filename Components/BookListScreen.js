@@ -141,15 +141,14 @@ const BookListScreen = () => {
     book.bookName.toLowerCase().includes(searchText.toLowerCase())
   );
 
-
-  const fetchBooks = async () => {  
-    setLoading(true); 
+  const fetchBooks = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
-        API_BASE_URL+'/book/getBooks',
+        API_BASE_URL + '/book/getBooks',
         {
           method: 'GET',
-          headers: {          
+          headers: {
             'security': 'JaihindJaiBharat',
           },
         }
@@ -161,14 +160,40 @@ const BookListScreen = () => {
   
       const json = await response.json();
       setBooks(json.books);
-    
-  
     } catch (error) {
       console.error('Failed to fetch books:', error);
-    }finally {
-      setLoading(false);  // Set loading to false after the API call is done
+      // Handle the error, e.g., show an error message to the user
+    } finally {
+      setLoading(false); // Set loading to false after the API call is done
     }
   };
+  // const fetchBooks = async () => {  
+  //   setLoading(true); 
+  //   try {
+  //     const response = await fetch(
+  //       API_BASE_URL+'/book/getBooks',
+  //       {
+  //         method: 'GET',
+  //         headers: {          
+  //           'security': 'JaihindJaiBharat',
+  //         },
+  //       }
+  //     );
+  
+  //     if (!response.ok) {
+  //       throw new Error('Failed to fetch books');
+  //     }
+  
+  //     const json = await response.json();
+  //     setBooks(json.books);
+    
+  
+  //   } catch (error) {
+  //     console.error('Failed to fetch books:', error);
+  //   }finally {
+  //     setLoading(false);  // Set loading to false after the API call is done
+  //   }
+  // };
   
   const openPlayStore = () => {
     const url = 'market://details?id=com.yourapp.package';
