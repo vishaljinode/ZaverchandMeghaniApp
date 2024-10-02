@@ -25,8 +25,7 @@ const BookIndex = ({ route }) => {
         {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'security': 'JaihindJaiBharat',
+            'Content-Type': 'application/json',            
           },
           body: JSON.stringify({ bookId: bookId }),
         }
