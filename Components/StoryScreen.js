@@ -29,7 +29,6 @@ const StoryScreen = ({ route, navigation }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'security': 'JaihindJaiBharat',
           },
           body: JSON.stringify({ storyId: storyId }),
         }
