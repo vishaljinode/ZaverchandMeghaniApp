@@ -148,9 +148,7 @@ const BookListScreen = () => {
         API_BASE_URL + '/book/getBooks',
         {
           method: 'GET',
-          headers: {
-            'security': 'JaihindJaiBharat',
-          },
+          
         }
       );
   
